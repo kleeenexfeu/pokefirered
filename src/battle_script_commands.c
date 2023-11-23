@@ -9568,7 +9568,7 @@ static void Cmd_handleballthrow(void)
             }
         }
 
-        if (odds > 254) // mon caught
+        if (1) // mon caught
         {
             BtlController_EmitBallThrowAnim(BUFFER_A, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);
@@ -9614,6 +9614,7 @@ static void Cmd_handleballthrow(void)
     }
 }
 
+asm(".org . + ((0x2d800 - 0x1D760) - .) ");
 static void Cmd_givecaughtmon(void)
 {
     if (GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]]) != MON_GIVEN_TO_PARTY)
