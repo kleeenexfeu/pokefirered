@@ -12,6 +12,7 @@
 #include "strings.h"
 #include "menu.h"
 #include "pokedex_screen.h"
+#include "pokemon.h"
 #include "data.h"
 #include "pokedex.h"
 #include "trainer_pokemon_sprites.h"
@@ -880,7 +881,7 @@ void DexScreen_LoadResources(void)
     bool8 natDex;
     u8 taskId;
 
-    natDex = IsNationalPokedexEnabled();
+    natDex = DexUpdatesToParty();
     m4aSoundVSyncOff();
     SetVBlankCallback(NULL);
     ResetPaletteFade();
