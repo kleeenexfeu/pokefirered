@@ -4480,9 +4480,9 @@ static void Cmd_switchindataupdate(void)
     for (i = 0; i < sizeof(struct BattlePokemon); i++)
         monData[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-    gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
-    gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
-    gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+    gBattleMons[gActiveBattler].type1 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE1, NULL);
+    gBattleMons[gActiveBattler].type2 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE2, NULL);
+    gBattleMons[gActiveBattler].ability = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_ABILITY, NULL);
 
     // check knocked off item
     i = GetBattlerSide(gActiveBattler);
@@ -4509,6 +4509,7 @@ static void Cmd_switchindataupdate(void)
     gBattlescriptCurrInstr += 2;
 }
 
+asm(".org . + ((0x240d4 - 0x1D760) - .) ");
 static void Cmd_switchinanim(void)
 {
     if (gBattleControllerExecFlags)
@@ -6174,7 +6175,7 @@ static void Cmd_various(void)
             if (species != SPECIES_NONE
              && species != SPECIES_EGG
              && status & AILMENT_FNT
-             && GetAbilityBySpecies(species, abilityNum) != ABILITY_SOUNDPROOF)
+             && GetMonData(&gPlayerParty[i], MON_DATA_ABILITY, NULL) != ABILITY_SOUNDPROOF)
                 monToCheck |= (1 << i);
         }
         if (monToCheck)
@@ -6195,7 +6196,7 @@ static void Cmd_various(void)
             if (species != SPECIES_NONE
              && species != SPECIES_EGG
              && status & AILMENT_FNT
-             && GetAbilityBySpecies(species, abilityNum) != ABILITY_SOUNDPROOF)
+             && GetMonData(&gEnemyParty[i], MON_DATA_ABILITY, NULL) != ABILITY_SOUNDPROOF)
                 monToCheck |= (1 << i);
         }
         if (monToCheck)
@@ -6216,6 +6217,8 @@ static void Cmd_various(void)
     gBattlescriptCurrInstr += 3;
 }
 
+
+asm(".org . + ((0x26f68 - 0x1d760) - .) ");
  // Protect and Endure
 static void Cmd_setprotectlike(void)
 {

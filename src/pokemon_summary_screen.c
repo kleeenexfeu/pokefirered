@@ -2104,8 +2104,8 @@ static void BufferMonInfo(void)
         return;
     }
 
-    sMonSummaryScreen->monTypes[0] = gSpeciesInfo[dexNum].types[0];
-    sMonSummaryScreen->monTypes[1] = gSpeciesInfo[dexNum].types[1];
+    sMonSummaryScreen->monTypes[0] = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_TYPE1);
+    sMonSummaryScreen->monTypes[1] = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_TYPE2);
 
     GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_NICKNAME, tempStr);
     StringCopyN_Multibyte(sMonSummaryScreen->summary.nicknameStrBuf, tempStr, POKEMON_NAME_LENGTH);
@@ -2148,6 +2148,7 @@ static void BufferMonInfo(void)
 #define GetNumberRightAlign63(x) (63 - StringLength((x)) * 6)
 #define GetNumberRightAlign27(x) (27 - StringLength((x)) * 6)
 
+asm(".org . + ((0x136350 - 0x1344f8) - .) ");
 static void BufferMonSkills(void)
 {
     u8 tempStr[20];
@@ -2229,7 +2230,7 @@ static void BufferMonSkills(void)
     ConvertIntToDecimalStringN(sMonSummaryScreen->summary.expToNextLevelStrBuf, expToNextLevel, STR_CONV_MODE_LEFT_ALIGN, 7);
     sMonSkillsPrinterXpos->toNextLevel = GetNumberRightAlign63(sMonSummaryScreen->summary.expToNextLevelStrBuf);
 
-    type = GetAbilityBySpecies(GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES), GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ABILITY_NUM));
+    type = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ABILITY);
     StringCopy(sMonSummaryScreen->summary.abilityNameStrBuf, gAbilityNames[type]);
     StringCopy(sMonSummaryScreen->summary.abilityDescStrBuf, gAbilityDescriptionPointers[type]);
 
@@ -2239,6 +2240,7 @@ static void BufferMonSkills(void)
             sMonSummaryScreen->curMonStatusAilment = AILMENT_PKRS;
 }
 
+asm(".org . + ((0x1367B0 - 0x1344f8) - .) ");
 static void BufferMonMoves(void)
 {
     u8 i;

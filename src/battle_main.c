@@ -2573,9 +2573,9 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
             for (i = 0; i < sizeof(struct BattlePokemon); i++)
                 ptr[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-            gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
-            gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
-            gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+            gBattleMons[gActiveBattler].type1 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE1, NULL);
+            gBattleMons[gActiveBattler].type2 = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_TYPE2, NULL);
+            gBattleMons[gActiveBattler].ability = GetMonData(GetBattlerPartyData(gActiveBattler), MON_DATA_ABILITY, NULL);
             hpOnSwitchout = &gBattleStruct->hpOnSwitchout[GetBattlerSide(gActiveBattler)];
             *hpOnSwitchout = gBattleMons[gActiveBattler].hp;
             for (i = 0; i < NUM_BATTLE_STATS; i++)
@@ -2639,6 +2639,7 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
     gBattleMainFunc = BattleIntroDrawPartySummaryScreens;
 }
 
+asm(".org . + ((0x1333C - 0xfd9c) - .) ");
 static void BattleIntroDrawPartySummaryScreens(void)
 {
     s32 i;
