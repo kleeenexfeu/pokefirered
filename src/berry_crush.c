@@ -436,7 +436,8 @@ static const s8 sIntroOutroVibrationData[][7] = {
     {  6,  4,  1, -2, -4, -2,  0},
 };
 
-ALIGNED(4)
+// ALIGNED(4)
+asm(".org . + ((0x46e314 - 0x46afe8) - .) ");
 const u8 sVibrationData[MAX_RFU_PLAYERS][4] = {
     { 3, 2, 1, 0},
     { 3, 3, 1, 0},
