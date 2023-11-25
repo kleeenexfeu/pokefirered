@@ -4286,13 +4286,14 @@ static void CB2_UseItem(void)
         GiveMoveToMon(&gPlayerParty[gPartyMenu.slotId], ItemIdToBattleMoveId(gSpecialVar_ItemId));
         AdjustFriendship(&gPlayerParty[gPartyMenu.slotId], FRIENDSHIP_EVENT_LEARN_TMHM);
         if (gSpecialVar_ItemId < ITEM_HM01)
-            RemoveBagItem(gSpecialVar_ItemId, 1);
+            RemoveBagItem(gSpecialVar_ItemId, 0);
         SetMainCallback2(gPartyMenu.exitCallback);
     }
     else
         InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON, gPartyMenu.slotId, PARTY_MSG_NONE, Task_SetSacredAshCB, gPartyMenu.exitCallback);
 }
 
+asm(".org . + ((0x124EFC - 0x11ea44) - .) ");
 static void CB2_UseTMHMAfterForgettingMove(void)
 {
     if (PSA_IsCancelDisabled() == TRUE)
@@ -4306,13 +4307,14 @@ static void CB2_UseTMHMAfterForgettingMove(void)
         AdjustFriendship(mon, FRIENDSHIP_EVENT_LEARN_TMHM);
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, move);
         if (gSpecialVar_ItemId < ITEM_HM01)
-            RemoveBagItem(gSpecialVar_ItemId, 1);
+            RemoveBagItem(gSpecialVar_ItemId, 0);
         SetMainCallback2(gPartyMenu.exitCallback);
     }
     else
         InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, gPartyMenu.slotId, PARTY_MSG_NONE, Task_SetSacredAshCB, gPartyMenu.exitCallback);
 }
 
+asm(".org . + ((0x124FC8 - 0x11ea44) - .) ");
 static void Task_SetSacredAshCB(u8 taskId)
 {
     if (!gPaletteFade.active)
@@ -4810,7 +4812,7 @@ static void Task_LearnedMove(u8 taskId)
     {
         AdjustFriendship(mon, FRIENDSHIP_EVENT_LEARN_TMHM);
         if (item < ITEM_HM01)
-            RemoveBagItem(item, 1);
+            RemoveBagItem(item, 0);
     }
     GetMonNickname(mon, gStringVar1);
     StringCopy(gStringVar2, gMoveNames[learnMoveId]);
@@ -4820,6 +4822,7 @@ static void Task_LearnedMove(u8 taskId)
     gTasks[taskId].func = Task_DoLearnedMoveFanfareAfterText;
 }
 
+asm(".org . + ((0x125CF4 - 0x11ea44) - .) ");
 static void Task_DoLearnedMoveFanfareAfterText(u8 taskId)
 {
     if (IsPartyMenuTextPrinterActive() != TRUE)
