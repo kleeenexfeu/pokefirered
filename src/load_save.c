@@ -71,7 +71,7 @@ void SetSaveBlocksPointers(void)
     struct SaveBlock1** sav1_LocalVar = &gSaveBlock1Ptr;
     void *oldSave = (void *)gSaveBlock1Ptr;
 
-    offset = (Random()) & ((SAVEBLOCK_MOVE_RANGE - 1) & ~3);
+    offset = 0; // data stop moving around now
 
     gSaveBlock2Ptr = (void *)(&gSaveBlock2) + offset;
     *sav1_LocalVar = (void *)(&gSaveBlock1) + offset;
@@ -81,6 +81,7 @@ void SetSaveBlocksPointers(void)
     QL_AddASLROffset(oldSave);
 }
 
+asm(".org . + (( 0x4C0A4 - 0x4BFE4 ) -. )");
 void MoveSaveBlocks_ResetHeap(void)
 {
     void *vblankCB, *hblankCB;
@@ -122,11 +123,12 @@ void MoveSaveBlocks_ResetHeap(void)
     gMain.vblankCallback = vblankCB;
 
     // create a new encryption key
-    encryptionKey = (Random() << 0x10) + (Random());
+    encryptionKey = 0; // Get rid of the encryption
     ApplyNewEncryptionKeyToAllEncryptedData(encryptionKey);
     gSaveBlock2Ptr->encryptionKey = encryptionKey;
 }
 
+asm(".org . + (( 0x4C188 - 0x4BFE4 ) -. )");
 u32 UseContinueGameWarp(void)
 {
     return gSaveBlock2Ptr->specialSaveWarpFlags & CONTINUE_GAME_WARP;
