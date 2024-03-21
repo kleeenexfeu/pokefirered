@@ -2460,8 +2460,10 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     }
 
     // Apply boosts from hold items
-    if (attackerHoldEffect == HOLD_EFFECT_CHOICE_BAND)
+    if (attackerHoldEffect == HOLD_EFFECT_CHOICE_BAND && attackerHoldEffectParam == 0)
         attack = (150 * attack) / 100;
+    if (attackerHoldEffect == HOLD_EFFECT_CHOICE_BAND && attackerHoldEffectParam == 1)
+        spAttack = (150 * spAttack) / 100;
     if (attackerHoldEffect == HOLD_EFFECT_SOUL_DEW && (attacker->species == SPECIES_LATIAS || attacker->species == SPECIES_LATIOS))
         spAttack = (150 * spAttack) / 100;
     if (defenderHoldEffect == HOLD_EFFECT_SOUL_DEW  && (defender->species == SPECIES_LATIAS || defender->species == SPECIES_LATIOS))
@@ -5314,9 +5316,6 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
             holdEffect = ItemId_GetHoldEffect(heldItem);
         }
 
-        if (holdEffect == HOLD_EFFECT_MACHO_BRACE)
-            evIncrease *= 2;
-
         if (totalEVs + (s16)evIncrease > MAX_TOTAL_EVS)
             evIncrease = ((s16)evIncrease + MAX_TOTAL_EVS) - (totalEVs + evIncrease);
 
@@ -5333,6 +5332,7 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
     }
 }
 
+asm(".org . + ((0x43A40 - 0x3d97c) - .) ");
 u16 GetMonEVCount(struct Pokemon *mon)
 {
     int i;

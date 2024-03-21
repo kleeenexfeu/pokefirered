@@ -198,7 +198,7 @@ static const u32 *const sItemIconTable[ITEMS_COUNT + 1][2] =
     // Hold items
     [ITEM_BRIGHT_POWDER]  = {gItemIcon_BrightPowder, gItemIconPalette_BrightPowder},
     [ITEM_WHITE_HERB]     = {gItemIcon_InBattleHerb, gItemIconPalette_WhiteHerb},
-    [ITEM_MACHO_BRACE]    = {gItemIcon_MachoBrace, gItemIconPalette_MachoBrace},
+    [ITEM_CHOICE_SPEC]    = {gItemIcon_ChoiceSpec, gItemIconPalette_ChoiceSpec},
     [ITEM_EXP_SHARE]      = {gItemIcon_ExpShare, gItemIconPalette_ExpShare},
     [ITEM_QUICK_CLAW]     = {gItemIcon_QuickClaw, gItemIconPalette_QuickClaw},
     [ITEM_SOOTHE_BELL]    = {gItemIcon_SootheBell, gItemIconPalette_SootheBell},

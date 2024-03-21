@@ -2238,7 +2238,7 @@ const struct BattleTowerPokemonTemplate gBattleTowerLevel50Mons[] =
 	},
 	{
 		.species = SPECIES_GRUMPIG,
-		.heldItem = BATTLE_TOWER_ITEM_MACHO_BRACE,
+		.heldItem = BATTLE_TOWER_ITEM_CHOICE_SPEC,
 		.teamFlags = 0x23,
 		.moves = {
 			MOVE_TRICK,
@@ -3837,7 +3837,7 @@ const struct BattleTowerPokemonTemplate gBattleTowerLevel50Mons[] =
 	},
 	{
 		.species = SPECIES_GRUMPIG,
-		.heldItem = BATTLE_TOWER_ITEM_MACHO_BRACE,
+		.heldItem = BATTLE_TOWER_ITEM_CHOICE_SPEC,
 		.teamFlags = 0x4B,
 		.moves = {
 			MOVE_PSYCHIC,

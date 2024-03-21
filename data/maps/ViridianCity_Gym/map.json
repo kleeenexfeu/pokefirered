@@ -202,8 +202,8 @@
       "x": 2,
       "y": 2,
       "elevation": 3,
-      "item": "ITEM_MACHO_BRACE",
-      "flag": "FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_MACHO_BRACE",
+      "item": "ITEM_CHOICE_SPEC",
+      "flag": "FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_CHOICE_SPEC",
       "quantity": 1,
       "underfoot": true
     }
