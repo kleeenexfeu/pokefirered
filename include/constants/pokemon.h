@@ -143,7 +143,7 @@
 #define MAX_TOTAL_EVS 510
 #define EV_ITEM_RAISE_LIMIT 100
 
-// Battle move flags
+// Battle move flags, 32 total possible now that it's a u32
 #define FLAG_MAKES_CONTACT          (1 << 0)
 #define FLAG_PROTECT_AFFECTED       (1 << 1)
 #define FLAG_MAGIC_COAT_AFFECTED    (1 << 2)

@@ -67,9 +67,8 @@ static u8 GetDataPokemonType(struct Pokemon *mon, u8 customtype);
 static u32 GetDataCalculatedStats(struct Pokemon *mon, u8 ivid, u8 evid, u8 customstatid, u8 statIndex);
 static u32 GetSpeciesBaseStat(u16 species, u8 statIndex);
 static u32 GetBaseStat(struct Pokemon *mon, u8 customstatid, u8 statIndex);
-static u16 GetDeoxysStat(struct Pokemon *mon, s32 statId);
 static bool8 IsShinyOtIdPersonality(u32 otId, u32 personality);
-static u16 ModifyStatByNature(u8 nature, u16 n, u8 statIndex);
+static u32 ModifyStatByNature(u8 nature, u16 n, u8 statIndex);
 static u8 GetNatureFromPersonality(u32 personality);
 static bool8 PartyMonHasStatus(struct Pokemon *mon, u32 unused, u32 healMask, u8 battleId);
 static bool8 HealStatusConditions(struct Pokemon *mon, u32 unused, u32 healMask, u8 battleId);
@@ -2538,7 +2537,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         damage /= 50;
 
         // Burn cuts attack in half
-        if ((attacker->status1 & STATUS1_BURN) && attacker->ability != ABILITY_GUTS)
+        if ((attacker->status1 & STATUS1_BURN) && attacker->ability != ABILITY_GUTS && gBattleMoves[gCurrentMove].effect != EFFECT_FACADE)
             damage /= 2;
 
         // Apply Reflect
@@ -2550,9 +2549,9 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
                 damage /= 2;
         }
 
-        // Moves hitting both targets do half damage in double battles
+        // Moves hitting both targets do 75% damage in double battles
         if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && gBattleMoves[move].target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
-            damage /= 2;
+            damage = 3 * (damage / 4);
 
         // Moves always do at least 1 damage.
         if (damage == 0)
@@ -5144,7 +5143,7 @@ u8 GetTrainerEncounterMusicId(u16 trainerId)
     return TRAINER_ENCOUNTER_MUSIC(trainerId);
 }
 
-static u16 ModifyStatByNature(u8 nature, u16 stat, u8 statIndex)
+static u32 ModifyStatByNature(u8 nature, u16 stat, u8 statIndex)
 {
 // Because this is a u16 it will be unable to store the
 // result of the multiplication for any stat > 595 for a
@@ -5839,101 +5838,12 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
 // If FALSE, should load this game's Deoxys form. If TRUE, should load normal Deoxys form
 bool8 ShouldIgnoreDeoxysForm(u8 caseId, u8 battlerId)
 {
-    switch (caseId)
-    {
-    case 0:
-    default:
-        return FALSE;
-    case DEOXYS_CHECK_BATTLE_SPRITE:
-        if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-            return FALSE;
-        if (!gMain.inBattle)
-            return FALSE;
-        if (gLinkPlayers[GetMultiplayerId()].id == battlerId)
-            return FALSE;
-        break;
-    case 2:
-        break;
-    case DEOXYS_CHECK_TRADE_MAIN:
-        if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-            return FALSE;
-        if (!gMain.inBattle)
-            return FALSE;
-        if (battlerId == 1 || battlerId == 4 || battlerId == 5)
-            return TRUE;
-        return FALSE;
-    case 4:
-        break;
-    case DEOXYS_CHECK_BATTLE_ANIM:
-        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-        {
-            if (!gMain.inBattle)
-                return FALSE;
-            if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-            {
-                if (gLinkPlayers[GetMultiplayerId()].id == battlerId)
-                    return FALSE;
-            }
-            else
-            {
-                if (GetBattlerSide(battlerId) == B_SIDE_PLAYER)
-                    return FALSE;
-            }
-        }
-        else
-        {
-            if (!gMain.inBattle)
-                return FALSE;
-            if (GetBattlerSide(battlerId) == B_SIDE_PLAYER)
-                return FALSE;
-        }
-        break;
-    }
-
     return TRUE;
 }
-asm(".org . + ((0x44674 - 0x3d97c) - .) ");
-static u16 GetDeoxysStat(struct Pokemon *mon, s32 statId)
-{
-    s32 ivVal, evVal;
-    u16 statValue = 0;
-    u8 nature;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK_IN_BATTLE || GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_DEOXYS)
-        return 0;
+// Few functions have been removed here, we can add a little bit of code if needed
 
-    ivVal = GetMonData(mon, MON_DATA_HP_IV + statId, NULL);
-    evVal = GetMonData(mon, MON_DATA_HP_EV + statId, NULL);
-    statValue = ((sDeoxysBaseStats[statId] * 2 + ivVal + evVal / 4) * mon->level) / 100 + 5;
-    nature = GetNature(mon);
-    statValue = ModifyStatByNature(nature, statValue, (u8)statId);
-    return statValue;
-}
-
-asm(".org . + ((0x44708 - 0x3d97c) - .) ");
-void SetDeoxysStats(void)
-{
-    s32 i, value;
-
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        struct Pokemon *mon = &gPlayerParty[i];
-
-        if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_DEOXYS)
-            continue;
-        value = GetMonData(mon, MON_DATA_ATK, NULL);
-        SetMonData(mon, MON_DATA_ATK, &value);
-        value = GetMonData(mon, MON_DATA_DEF, NULL);
-        SetMonData(mon, MON_DATA_DEF, &value);
-        value = GetMonData(mon, MON_DATA_SPEED, NULL);
-        SetMonData(mon, MON_DATA_SPEED, &value);
-        value = GetMonData(mon, MON_DATA_SPATK, NULL);
-        SetMonData(mon, MON_DATA_SPATK, &value);
-        value = GetMonData(mon, MON_DATA_SPDEF, NULL);
-        SetMonData(mon, MON_DATA_SPDEF, &value);
-    }
-}
-
+asm(".org . + ((0x447AC - 0x3d97c) - .) ");
 u16 GetUnionRoomTrainerPic(void)
 {
     u8 linkId = GetMultiplayerId() ^ 1;
