@@ -19,6 +19,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "field_specials.h"
 #include "battle.h"
+#include "pokemon_jump.h"
 #include "battle_message.h"
 #include "battle_anim.h"
 #include "battle_ai_script_commands.h"
@@ -910,7 +911,8 @@ static void Cmd_attackcanceler(void)
     }
 }
 
-static void JumpIfMoveFailed(u8 adder, u16 move)
+asm(".org . + ((0x1DB10 - 0x1d760) - .) ");
+void JumpIfMoveFailed(u8 adder, u16 move)
 {
     const u8 *BS_ptr = gBattlescriptCurrInstr + adder;
     if (gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
@@ -955,51 +957,8 @@ static bool8 JumpIfMoveAffectedByProtect(u16 move)
     return affected;
 }
 
-static bool8 AccuracyCalcHelper(u16 move)
-{
-    if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
-    {
-        JumpIfMoveFailed(7, move);
-        return TRUE;
-    }
 
-    if (!(gHitMarker & HITMARKER_IGNORE_ON_AIR) && gStatuses3[gBattlerTarget] & STATUS3_ON_AIR)
-    {
-        gMoveResultFlags |= MOVE_RESULT_MISSED;
-        JumpIfMoveFailed(7, move);
-        return TRUE;
-    }
-
-    gHitMarker &= ~HITMARKER_IGNORE_ON_AIR;
-
-    if (!(gHitMarker & HITMARKER_IGNORE_UNDERGROUND) && gStatuses3[gBattlerTarget] & STATUS3_UNDERGROUND)
-    {
-        gMoveResultFlags |= MOVE_RESULT_MISSED;
-        JumpIfMoveFailed(7, move);
-        return TRUE;
-    }
-
-    gHitMarker &= ~HITMARKER_IGNORE_UNDERGROUND;
-
-    if (!(gHitMarker & HITMARKER_IGNORE_UNDERWATER) && gStatuses3[gBattlerTarget] & STATUS3_UNDERWATER)
-    {
-        gMoveResultFlags |= MOVE_RESULT_MISSED;
-        JumpIfMoveFailed(7, move);
-        return TRUE;
-    }
-
-    gHitMarker &= ~HITMARKER_IGNORE_UNDERWATER;
-
-    if ((WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_RAIN) && gBattleMoves[move].effect == EFFECT_THUNDER)
-     || (gBattleMoves[move].effect == EFFECT_ALWAYS_HIT || gBattleMoves[move].effect == EFFECT_VITAL_THROW))
-    {
-        JumpIfMoveFailed(7, move);
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
+asm(".org . + ((0x1DDC4 - 0x1d760) - .) ");
 static void Cmd_accuracycheck(void)
 {
     u16 move = T2_READ_16(gBattlescriptCurrInstr + 5);

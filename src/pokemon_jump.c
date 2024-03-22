@@ -22,6 +22,41 @@
 #include "constants/items.h"
 #include "constants/songs.h"
 
+#include "util.h"
+#include "random.h"
+#include "pokedex.h"
+#include "money.h"
+#include "pokemon_icon.h"
+#include "mail.h"
+#include "event_data.h"
+#include "strings.h"
+#include "pokemon_special_anim.h"
+#include "pokemon_storage_system.h"
+#include "pokemon_summary_screen.h"
+#include "task.h"
+#include "naming_screen.h"
+#include "overworld.h"
+#include "party_menu.h"
+#include "trainer_pokemon_sprites.h"
+#include "field_specials.h"
+#include "battle.h"
+#include "pokemon_jump.h"
+#include "battle_message.h"
+#include "battle_anim.h"
+#include "battle_ai_script_commands.h"
+#include "battle_scripts.h"
+#include "reshow_battle_screen.h"
+#include "battle_controllers.h"
+#include "battle_interface.h"
+#include "constants/battle_anim.h"
+#include "constants/battle_move_effects.h"
+#include "constants/battle_script_commands.h"
+#include "constants/hold_effects.h"
+#include "constants/moves.h"
+#include "constants/abilities.h"
+#include "constants/pokemon.h"
+#include "constants/maps.h"
+
 
 
 /*
@@ -51,6 +86,52 @@ static bool32 TryUpdateRecords(u32, u16, u16); // REFERENCES ??
 // Deleting things would make things in the RAM move, so we keep 'em
 EWRAM_DATA static struct PokemonJump *sPokemonJump = NULL;
 EWRAM_DATA static struct PokemonJumpGfx *sPokemonJumpGfx = NULL; // EWRAM DATA, DON'T DELETE
+
+bool8 AccuracyCalcHelper(u16 move)
+{
+    if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
+    {
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
+    if (!(gHitMarker & HITMARKER_IGNORE_ON_AIR) && gStatuses3[gBattlerTarget] & STATUS3_ON_AIR)
+    {
+        gMoveResultFlags |= MOVE_RESULT_MISSED;
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
+    gHitMarker &= ~HITMARKER_IGNORE_ON_AIR;
+
+    if (!(gHitMarker & HITMARKER_IGNORE_UNDERGROUND) && gStatuses3[gBattlerTarget] & STATUS3_UNDERGROUND)
+    {
+        gMoveResultFlags |= MOVE_RESULT_MISSED;
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
+    gHitMarker &= ~HITMARKER_IGNORE_UNDERGROUND;
+
+    if (!(gHitMarker & HITMARKER_IGNORE_UNDERWATER) && gStatuses3[gBattlerTarget] & STATUS3_UNDERWATER)
+    {
+        gMoveResultFlags |= MOVE_RESULT_MISSED;
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
+    gHitMarker &= ~HITMARKER_IGNORE_UNDERWATER;
+
+    if ((WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_RAIN) && gBattleMoves[move].effect == EFFECT_THUNDER)
+     || (WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_HAIL) && move == MOVE_BLIZZARD)
+     || (gBattleMoves[move].effect == EFFECT_ALWAYS_HIT || gBattleMoves[move].effect == EFFECT_VITAL_THROW))
+    {
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
+    return FALSE;
+}
 
 void StartPokemonJump(u16 partyId, MainCallback exitCallback)
 {
