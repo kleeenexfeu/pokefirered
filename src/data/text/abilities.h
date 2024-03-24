@@ -74,7 +74,7 @@ static const u8 sVitalSpiritDescription[] = _("Prevents sleep.");
 static const u8 sWhiteSmokeDescription[] = _("Prevents ability reduction.");
 static const u8 sPurePowerDescription[] = _("Raises ATTACK.");
 static const u8 sShellArmorDescription[] = _("Blocks critical hits.");
-static const u8 sCacophonyDescription[] = _("Avoids sound-based moves.");
+static const u8 sProteanDescription[] = _("Changes type to used move.");
 static const u8 sAirLockDescription[] = _("Negates weather effects.");
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -155,7 +155,7 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_WHITE_SMOKE] = sWhiteSmokeDescription,
     [ABILITY_PURE_POWER] = sPurePowerDescription,
     [ABILITY_SHELL_ARMOR] = sShellArmorDescription,
-    [ABILITY_CACOPHONY] = sCacophonyDescription,
+    [ABILITY_PROTEAN] = sProteanDescription,
     [ABILITY_AIR_LOCK] = sAirLockDescription,
 };
 
@@ -237,6 +237,6 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_WHITE_SMOKE] = _("WHITE SMOKE"),
     [ABILITY_PURE_POWER] = _("PURE POWER"),
     [ABILITY_SHELL_ARMOR] = _("SHELL ARMOR"),
-    [ABILITY_CACOPHONY] = _("CACOPHONY"),
+    [ABILITY_PROTEAN] = _("PROTEAN"),
     [ABILITY_AIR_LOCK] = _("AIR LOCK"),
 };

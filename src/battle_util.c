@@ -1974,6 +1974,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 {
                     SET_BATTLER_TYPE(battler, moveType);
                     PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
+                    gLastUsedAbility = ABILITY_COLOR_CHANGE;
+                    gBattleScripting.battler = battler;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_ColorChangeActivates;
                     effect++;
@@ -2326,18 +2328,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
             switch (gLastUsedAbility)
             {
             case ABILITYEFFECT_MUD_SPORT:
-                for (i = 0; i < gBattlersCount; i++)
-                {
-                    if (gStatuses3[i] & STATUS3_MUDSPORT)
-                        effect = i + 1;
-                }
-                break;
             case ABILITYEFFECT_WATER_SPORT:
-                for (i = 0; i < gBattlersCount; i++)
-                {
-                    if (gStatuses3[i] & STATUS3_WATERSPORT)
-                        effect = i + 1;
-                }
+                effect = 0;
                 break;
             default:
                 for (i = 0; i < gBattlersCount; i++)
@@ -2425,6 +2417,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
     return effect;
 }
 
+asm(".org . + ((0x1bbe4 - 0x16e24) - .) ");
 void BattleScriptExecute(const u8 *BS_ptr)
 {
     gBattlescriptCurrInstr = BS_ptr;

@@ -87,6 +87,30 @@ static bool32 TryUpdateRecords(u32, u16, u16); // REFERENCES ??
 EWRAM_DATA static struct PokemonJump *sPokemonJump = NULL;
 EWRAM_DATA static struct PokemonJumpGfx *sPokemonJumpGfx = NULL; // EWRAM DATA, DON'T DELETE
 
+bool32 ProteanActivation(void)
+{
+    u32 moveType;
+    GET_MOVE_TYPE(gCurrentMove, moveType);
+
+    if (
+    gBattleMons[gBattlerAttacker].ability == ABILITY_PROTEAN
+    && (gBattleMons[gBattlerAttacker].type1 != moveType || gBattleMons[gBattlerAttacker].type2 != moveType)
+    && gCurrentMove != MOVE_STRUGGLE
+    )
+    {
+        PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
+        SET_BATTLER_TYPE(gBattlerAttacker, moveType);
+        gLastUsedAbility = ABILITY_PROTEAN;
+        gBattleScripting.battler = gBattlerAttacker;
+        RecordAbilityBattle(gBattlerAttacker, gLastUsedAbility);
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_ColorChangeActivates;
+        return TRUE;
+    } 
+    else
+       return FALSE;
+}
+
 bool8 AccuracyCalcHelper(u16 move)
 {
     if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)

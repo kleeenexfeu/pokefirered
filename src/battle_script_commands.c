@@ -834,6 +834,11 @@ static void Cmd_attackcanceler(void)
     }
     if (AtkCanceller_UnableToUseMove())
         return;
+
+    // Protean activation
+    if (ProteanActivation())
+        return;
+
     if (AbilityBattleEffects(ABILITYEFFECT_MOVES_BLOCK, gBattlerTarget, 0, 0, 0))
         return;
     if (!gBattleMons[gBattlerAttacker].pp[gCurrMovePos] && gCurrentMove != MOVE_STRUGGLE && !(gHitMarker & (HITMARKER_ALLOW_NO_PP | HITMARKER_NO_ATTACKSTRING))
