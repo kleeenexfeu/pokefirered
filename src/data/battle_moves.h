@@ -28,7 +28,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_KARATE_CHOP] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 50,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
@@ -36,7 +36,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_DOUBLE_SLAP] =
@@ -977,7 +977,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_RAZOR_LEAF] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 55,
         .type = TYPE_GRASS,
         .accuracy = 95,
@@ -985,7 +985,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_BOTH,
         .priority = 0,
-        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_SOLAR_BEAM] =
@@ -1869,7 +1869,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 30,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_TRANSFORM] =
@@ -1978,7 +1978,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_CRABHAMMER] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 90,
         .type = TYPE_WATER,
         .accuracy = 85,
@@ -1986,7 +1986,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_EXPLOSION] =
@@ -2121,7 +2121,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_SLASH] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 70,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -2129,7 +2129,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_SUBSTITUTE] =
@@ -2303,7 +2303,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_AEROBLAST] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 100,
         .type = TYPE_FLYING,
         .accuracy = 95,
@@ -2311,7 +2311,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_COTTON_SPORE] =
@@ -3096,7 +3096,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_CROSS_CHOP] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 100,
         .type = TYPE_FIGHTING,
         .accuracy = 80,
@@ -3104,7 +3104,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_TWISTER] =
@@ -3897,7 +3897,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 10,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_MUD_SPORT] =
@@ -4084,7 +4084,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_AIR_CUTTER] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 55,
         .type = TYPE_FLYING,
         .accuracy = 95,
@@ -4092,7 +4092,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_BOTH,
         .priority = 0,
-        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_OVERHEAT] =
@@ -4456,7 +4456,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 10,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_COVET] =
@@ -4526,7 +4526,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
     [MOVE_LEAF_BLADE] =
     {
-        .effect = EFFECT_HIGH_CRITICAL,
+        .effect = EFFECT_HIT,
         .power = 70,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -4534,7 +4534,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .secondaryEffectChance = 0,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
-        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+        .flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_HIGH_CRITICAL,
     },
 
     [MOVE_DRAGON_DANCE] =
