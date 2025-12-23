@@ -44,7 +44,6 @@ jobs:
         with:
           name: pokefirered_build_outputs
           path: |
-            pokefirered.gba
-            pokefirered.elf
-            pokefirered.map
-            pokefirered.sym
+            pokefirered_modern.gba
+            pokefirered_modern.elf
+            pokefirered_modern.map
